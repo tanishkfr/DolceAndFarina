@@ -43,7 +43,7 @@ export const PastryMenu: React.FC = () => {
   };
 
   return (
-    <section id="menu" className="scroll-mt-40 bg-cream pb-32 pt-12 relative -mt-10 z-20">
+    <section id="menu" className="scroll-mt-32 bg-cream pb-32 pt-12 relative -mt-10 z-20">
       
       {/* X Crossover Marquee Container - Positioned to bridge sections */}
       <div className="relative h-[180px] w-full overflow-hidden mb-12 flex items-center justify-center -mt-24 z-30 pointer-events-none">
@@ -110,10 +110,10 @@ export const PastryMenu: React.FC = () => {
                {menuItems.map((item) => {
                  const isAdded = cart.has(item.id);
                  return (
-                   <li key={item.id} className="flex justify-between items-center bg-white/60 p-4 rounded-xl border border-espresso/10 hover:border-espresso hover:bg-white transition-all group">
+                   <li key={item.id} className="flex justify-between items-center bg-white/60 p-4 rounded-xl border border-espresso/10 hover:border-espresso hover:bg-white transition-all group relative">
                       <div className="flex flex-col pr-4 relative">
                         {item.badge && (
-                          <span className="absolute -top-3 -left-2 bg-deep-orange text-espresso text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full border border-espresso transform -rotate-3 shadow-sm">
+                          <span className="absolute -top-6 -left-2 bg-deep-orange text-espresso text-[10px] font-black uppercase tracking-widest py-1 px-3 rounded-md border-2 border-espresso transform -rotate-6 shadow-sm z-20">
                             {item.badge}
                           </span>
                         )}
@@ -127,10 +127,10 @@ export const PastryMenu: React.FC = () => {
                       
                       <button 
                         onClick={() => toggleItem(item.id)}
-                        className={`flex items-center gap-2 pl-3 pr-1 py-1 rounded-full border-2 border-espresso transition-all shadow-[2px_2px_0px_0px_rgba(45,36,36,1)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px] cursor-pointer ${isAdded ? 'bg-vibrant-pistachio' : 'bg-white'}`}
+                        className={`flex items-center gap-2 pl-3 pr-1 py-1 rounded-full border-2 border-espresso transition-all shadow-[2px_2px_0px_0px_rgba(45,36,36,1)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px] cursor-pointer bg-white group-hover:scale-105`}
                       >
                         <span className="font-sans font-bold text-lg text-espresso">{item.price}</span>
-                        <div className={`w-8 h-8 flex items-center justify-center rounded-full border border-espresso transition-colors ${isAdded ? 'bg-white text-espresso' : 'bg-espresso text-cream'}`}>
+                        <div className={`w-8 h-8 flex items-center justify-center rounded-full border border-espresso transition-colors ${isAdded ? 'bg-vibrant-pistachio text-espresso' : 'bg-espresso text-cream'}`}>
                            {isAdded ? <Check size={18} strokeWidth={3} /> : <Plus size={18} strokeWidth={3} />}
                         </div>
                       </button>

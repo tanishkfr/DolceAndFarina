@@ -1,15 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Plus, Check } from 'lucide-react';
 
 export const CoffeeMenu: React.FC = () => {
+  const [cart, setCart] = useState<Set<string>>(new Set());
+
   const drinks = [
-    { name: "Espresso", price: "$2.50" },
-    { name: "Cappuccino", price: "$4.00" },
-    { name: "Freddo Espresso", price: "$3.50" },
-    { name: "Latte Macchiato", price: "$4.50" },
+    { id: 'c1', name: "Espresso", price: "$2.50" },
+    { id: 'c2', name: "Cappuccino", price: "$4.00", badge: "Best Seller" },
+    { id: 'c3', name: "Freddo Espresso", price: "$3.50" },
+    { id: 'c4', name: "Latte Macchiato", price: "$4.50" },
   ];
 
+  const toggleItem = (id: string) => {
+    const newCart = new Set(cart);
+    if (newCart.has(id)) {
+      newCart.delete(id);
+    } else {
+      newCart.add(id);
+    }
+    setCart(newCart);
+  };
+
   return (
-    <section id="coffee" className="scroll-mt-40 py-24 px-6 md:px-12 bg-cream">
+    <section id="coffee" className="scroll-mt-32 py-24 px-6 md:px-12 bg-cream">
       <div className="container mx-auto">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
           
@@ -26,13 +39,32 @@ export const CoffeeMenu: React.FC = () => {
               Liquid <br/> Energy.
             </h2>
 
-            <ul className="space-y-4 relative z-10">
-              {drinks.map((drink, idx) => (
-                <li key={idx} className="flex justify-between items-center bg-white/60 p-4 rounded-xl border border-espresso/10 hover:border-espresso hover:bg-white transition-all cursor-pointer group">
-                  <span className="font-serif font-bold text-xl md:text-2xl text-espresso group-hover:text-deep-orange transition-colors">{drink.name}</span>
-                  <span className="font-sans font-bold text-lg text-espresso bg-white px-3 py-1 rounded-lg border-2 border-espresso shadow-[2px_2px_0px_0px_rgba(45,36,36,1)]">{drink.price}</span>
-                </li>
-              ))}
+            <ul className="space-y-4 relative z-10 w-full">
+              {drinks.map((drink) => {
+                const isAdded = cart.has(drink.id);
+                return (
+                  <li key={drink.id} className="flex justify-between items-center bg-white/60 p-4 rounded-xl border border-espresso/10 hover:border-espresso hover:bg-white transition-all cursor-pointer group relative">
+                    <div className="flex flex-col relative">
+                       {drink.badge && (
+                          <span className="absolute -top-6 -left-2 bg-deep-orange text-espresso text-[10px] font-black uppercase tracking-widest py-1 px-3 rounded-md border-2 border-espresso transform -rotate-6 shadow-sm z-20">
+                            {drink.badge}
+                          </span>
+                        )}
+                      <span className="font-serif font-bold text-xl md:text-2xl text-espresso group-hover:text-deep-orange transition-colors">{drink.name}</span>
+                    </div>
+
+                    <button 
+                        onClick={() => toggleItem(drink.id)}
+                        className={`flex items-center gap-2 pl-3 pr-1 py-1 rounded-full border-2 border-espresso transition-all shadow-[2px_2px_0px_0px_rgba(45,36,36,1)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px] cursor-pointer bg-white group-hover:scale-105`}
+                      >
+                        <span className="font-sans font-bold text-lg text-espresso">{drink.price}</span>
+                        <div className={`w-8 h-8 flex items-center justify-center rounded-full border border-espresso transition-colors ${isAdded ? 'bg-vibrant-pistachio text-espresso' : 'bg-espresso text-cream'}`}>
+                           {isAdded ? <Check size={18} strokeWidth={3} /> : <Plus size={18} strokeWidth={3} />}
+                        </div>
+                      </button>
+                  </li>
+                );
+              })}
             </ul>
             
             <div className="mt-10 relative z-10">
