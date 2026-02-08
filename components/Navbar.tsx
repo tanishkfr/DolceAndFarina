@@ -3,18 +3,20 @@ import { Menu, X, ShoppingBag } from 'lucide-react';
 
 interface NavbarProps {
   cartCount: number;
+  onCartClick: () => void;
+  onHomeClick: (scrollToMenu?: boolean) => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ cartCount }) => {
+export const Navbar: React.FC<NavbarProps> = ({ cartCount, onCartClick, onHomeClick }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   const navLinks = [
-    { name: 'Menu', href: '#menu' },
-    { name: 'Coffee', href: '#coffee' },
-    { name: 'About', href: '#about' },
-    { name: 'Visit', href: '#visit' },
+    { name: 'Menu', href: '#menu', action: () => onHomeClick(true) },
+    { name: 'Coffee', href: '#coffee', action: () => onHomeClick(true) }, // Simplified to scroll to menu area
+    { name: 'About', href: '#about', action: () => onHomeClick(false) },
+    { name: 'Visit', href: '#visit', action: () => onHomeClick(false) },
   ];
 
   // Handle scroll effect for pill compression
@@ -44,6 +46,15 @@ export const Navbar: React.FC<NavbarProps> = ({ cartCount }) => {
     };
   }, [isOpen]);
 
+  const handleOrderPickup = () => {
+    setIsOpen(false);
+    if (cartCount > 0) {
+      onCartClick();
+    } else {
+      onHomeClick(true);
+    }
+  };
+
   return (
     <nav className={`fixed top-4 md:top-6 left-0 right-0 z-50 flex justify-center pointer-events-none transition-all duration-300 ${scrolled ? '-translate-y-1' : 'translate-y-0'}`}>
       
@@ -60,7 +71,10 @@ export const Navbar: React.FC<NavbarProps> = ({ cartCount }) => {
               
               {/* Left: Cart / Bag */}
               <div className="flex-1 flex justify-start">
-                  <button className="group flex items-center gap-2 text-espresso hover:text-deep-orange transition-colors">
+                  <button 
+                    onClick={onCartClick}
+                    className="group flex items-center gap-2 text-espresso hover:text-deep-orange transition-colors"
+                  >
                     <div className="relative">
                       <ShoppingBag size={20} strokeWidth={2.5} />
                       <span className={`absolute -top-1 -right-1 bg-deep-orange text-espresso text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-espresso leading-none pt-[1px] transition-all duration-300 ${cartCount > 0 ? 'scale-100 opacity-100' : 'scale-0 opacity-0'}`}>
@@ -73,9 +87,12 @@ export const Navbar: React.FC<NavbarProps> = ({ cartCount }) => {
 
               {/* Center: Logo */}
               <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
-                <a href="#" className="font-serif font-black text-2xl text-espresso tracking-tight whitespace-nowrap hover:text-deep-orange transition-colors">
+                <button 
+                  onClick={() => onHomeClick(false)}
+                  className="font-serif font-black text-2xl text-espresso tracking-tight whitespace-nowrap hover:text-deep-orange transition-colors"
+                >
                   Dolce & Farina
-                </a>
+                </button>
               </div>
 
               {/* Right: Menu Trigger */}
@@ -105,7 +122,11 @@ export const Navbar: React.FC<NavbarProps> = ({ cartCount }) => {
                   <li key={link.name}>
                     <a 
                       href={link.href}
-                      onClick={() => setIsOpen(false)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setIsOpen(false);
+                        link.action();
+                      }}
                       className="block font-serif font-bold text-xl text-espresso hover:text-deep-orange hover:translate-x-2 transition-all py-2 border-b border-espresso/5 last:border-0"
                     >
                       {link.name}
@@ -113,15 +134,6 @@ export const Navbar: React.FC<NavbarProps> = ({ cartCount }) => {
                   </li>
                 ))}
               </ul>
-              <div className="mt-3 pt-2">
-                 <a 
-                   href="#menu" 
-                   onClick={() => setIsOpen(false)}
-                   className="block w-full bg-espresso text-white text-center py-3 rounded-xl font-sans font-bold uppercase text-xs tracking-wider border-2 border-espresso hover:bg-deep-orange hover:text-espresso transition-colors"
-                 >
-                   Order Pickup
-                 </a>
-              </div>
           </div>
 
       </div>

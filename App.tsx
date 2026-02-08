@@ -5,6 +5,7 @@ import { CoffeeMenu } from './components/CoffeeMenu';
 import { About } from './components/About';
 import { Footer } from './components/Footer';
 import { Navbar } from './components/Navbar';
+import { Cart } from './components/Cart';
 import { SplashScreen } from './components/SplashScreen';
 
 const CustomCursor = () => {
@@ -55,8 +56,11 @@ const CustomCursor = () => {
   );
 };
 
+type ViewState = 'home' | 'cart';
+
 const App: React.FC = () => {
   const [loading, setLoading] = useState(true);
+  const [currentView, setCurrentView] = useState<ViewState>('home');
   
   // GLOBAL CART STATE: Record<ItemId, Quantity>
   const [cartItems, setCartItems] = useState<Record<string, number>>({});
@@ -68,7 +72,44 @@ const App: React.FC = () => {
     }));
   };
 
+  const removeFromCart = (id: string) => {
+    setCartItems(prev => {
+      const currentQty = prev[id] || 0;
+      if (currentQty <= 1) {
+        const { [id]: _, ...rest } = prev;
+        return rest;
+      }
+      return { ...prev, [id]: currentQty - 1 };
+    });
+  };
+
+  const deleteFromCart = (id: string) => {
+    setCartItems(prev => {
+      const { [id]: _, ...rest } = prev;
+      return rest;
+    });
+  };
+
   const totalItems = Object.values(cartItems).reduce((sum: number, qty: number) => sum + qty, 0);
+
+  const handleCartClick = () => {
+    setCurrentView('cart');
+    window.scrollTo(0, 0);
+  };
+
+  const handleHomeClick = (shouldScrollToMenu = false) => {
+    setCurrentView('home');
+    if (shouldScrollToMenu) {
+      setTimeout(() => {
+        const menuSection = document.getElementById('menu');
+        if (menuSection) {
+          menuSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    } else {
+       window.scrollTo(0, 0);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-cream font-sans text-espresso antialiased selection:bg-warm-yellow selection:text-espresso overflow-x-hidden">
@@ -76,16 +117,40 @@ const App: React.FC = () => {
       
       {loading && <SplashScreen onComplete={() => setLoading(false)} />}
       
-      <Navbar cartCount={totalItems} />
+      <Navbar 
+        cartCount={totalItems} 
+        onCartClick={handleCartClick}
+        onHomeClick={handleHomeClick}
+      />
       
       <main className="flex flex-col w-full">
-        <Hero />
-        <PastryMenu cartItems={cartItems} addToCart={addToCart} />
-        <CoffeeMenu cartItems={cartItems} addToCart={addToCart} />
-        <About />
+        {currentView === 'home' ? (
+          <>
+            <Hero />
+            <PastryMenu 
+              cartItems={cartItems} 
+              addToCart={addToCart} 
+              removeFromCart={removeFromCart} 
+            />
+            <CoffeeMenu 
+              cartItems={cartItems} 
+              addToCart={addToCart} 
+              removeFromCart={removeFromCart} 
+            />
+            <About />
+          </>
+        ) : (
+          <Cart 
+            cartItems={cartItems} 
+            addToCart={addToCart} 
+            removeFromCart={removeFromCart}
+            deleteFromCart={deleteFromCart}
+            onBack={() => setCurrentView('home')} 
+          />
+        )}
       </main>
 
-      <Footer />
+      {currentView === 'home' && <Footer />}
     </div>
   );
 };

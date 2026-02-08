@@ -14,46 +14,37 @@ export const Hero: React.FC = () => {
           {/* LEFT SIDE: TEXT CONTENT */}
           <div className="text-center lg:text-left relative z-20 flex flex-col items-center lg:items-start">
             
-            {/* Floating Badge */}
-            <div className="absolute -top-20 -left-4 md:-top-24 md:-left-16 animate-[spin_12s_linear_infinite] z-0 opacity-90 hover:animate-none hover:scale-110 transition-transform cursor-pointer">
-              <div className="relative w-32 h-32 md:w-40 md:h-40 bg-deep-orange text-espresso flex items-center justify-center rounded-full border-4 border-espresso shadow-[4px_4px_0px_0px_#2D2424]">
-                 <svg viewBox="0 0 100 100" className="absolute w-full h-full animate-[spin_4s_linear_infinite_reverse]">
-                   <path id="curve" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="transparent" />
-                   <text className="text-[11px] font-black uppercase tracking-widest fill-espresso">
-                     <textPath xlinkHref="#curve">
-                       • Fresh Daily • Open Now • Hot Coffee •
-                     </textPath>
-                   </text>
-                 </svg>
-                 <span className="font-black text-4xl font-serif">Ciao!</span>
-              </div>
-            </div>
-
-            {/* Headline */}
-            <h1 className="relative z-10 font-serif font-black text-[5rem] sm:text-[7rem] md:text-[9rem] leading-[0.85] text-espresso tracking-tight mb-8 drop-shadow-sm select-none">
-              CIAO <br/>
-              <span className="text-white drop-shadow-[4px_4px_0_#2D2424] md:drop-shadow-[6px_6px_0_#2D2424]">
-                BELLA.
-              </span>
-            </h1>
-            
-            {/* DECORATIVE: Nonna Approved Stamp (UPDATED) */}
-            <div className="absolute top-1/2 -right-10 hidden lg:block z-0 opacity-90 pointer-events-none">
-                <div className="bg-deep-orange text-espresso rounded-full p-4 transform -rotate-12 border-2 border-espresso shadow-[4px_4px_0px_0px_#2D2424] w-28 h-28 flex items-center justify-center">
-                   <span className="font-serif font-black uppercase text-center leading-none text-sm">
-                     NONNA<br/>APPROVED
-                   </span>
+            {/* Main Headline Group */}
+            <div className="relative mb-8">
+                {/* Stamp: "Eat a Cannoli" */}
+                <div className="absolute -top-12 -right-4 md:-top-16 md:-right-12 z-20 transform rotate-12 animate-[pulse_3s_ease-in-out_infinite]">
+                    <div className="w-24 h-24 md:w-32 md:h-32 bg-white rounded-full border-4 border-espresso shadow-[4px_4px_0px_0px_#2D2424] flex items-center justify-center p-1">
+                        <div className="w-full h-full rounded-full border-2 border-dashed border-espresso flex items-center justify-center">
+                            <span className="font-sans font-black uppercase text-xs md:text-sm text-espresso leading-none text-center transform -rotate-6">
+                                Eat A<br/><span className="text-lg md:text-xl text-deep-orange">Cannoli</span>
+                            </span>
+                        </div>
+                    </div>
                 </div>
+
+                <h1 className="font-serif font-black italic text-[7rem] sm:text-[9rem] md:text-[11rem] leading-[0.75] tracking-tighter text-espresso relative z-10">
+                  CIAO
+                </h1>
+                <h1 className="relative z-10 font-serif font-black italic text-[7rem] sm:text-[9rem] md:text-[11rem] leading-[0.75] tracking-tighter text-white drop-shadow-[6px_6px_0_rgba(255,183,77,1)] md:drop-shadow-[10px_10px_0_rgba(255,183,77,1)] -mt-2 md:-mt-6">
+                  BELLA.
+                </h1>
             </div>
 
-            <p className="font-sans text-xl md:text-3xl text-espresso font-bold mb-10 max-w-xl mx-auto lg:mx-0 leading-tight bg-white/50 backdrop-blur-sm p-6 rounded-2xl border-2 border-espresso inline-block transform -rotate-1 shadow-[4px_4px_0px_0px_#2D2424] relative z-10 hover:rotate-0 transition-transform duration-300">
+            {/* Subtitle */}
+            <p className="font-sans text-xl md:text-2xl text-espresso font-bold mb-10 max-w-lg mx-auto lg:mx-0 leading-tight">
               Authentic Italian sugar chaos. <br/>
-              Use two hands.
+              <span className="decoration-deep-orange underline decoration-4 underline-offset-2">Use two hands.</span>
             </p>
             
+            {/* Buttons */}
             <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start relative z-10 w-full sm:w-auto">
               <a href="#menu" className="group bg-espresso text-white text-xl font-sans font-black px-12 py-5 rounded-full border-2 border-espresso hover:bg-deep-orange hover:text-espresso transition-all duration-200 flex items-center justify-center gap-3 shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:shadow-[4px_4px_0px_0px_#2D2424] hover:-translate-y-1">
-                Grab a Cannoli <ArrowDownRight className="group-hover:rotate-45 transition-transform" />
+                Order Now <ArrowDownRight className="group-hover:rotate-45 transition-transform" />
               </a>
               <a href="#visit" className="bg-cream text-espresso text-xl font-sans font-black px-12 py-5 rounded-full border-2 border-espresso hover:bg-white transition-all duration-200 shadow-[4px_4px_0px_0px_#2D2424] hover:-translate-y-1">
                 Find Us
