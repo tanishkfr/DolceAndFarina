@@ -63,6 +63,7 @@ const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<ViewState>('home');
   
   // GLOBAL CART STATE: Record<ItemId, Quantity>
+  // Kept to ensure PastryMenu and CoffeeMenu do not break, even if Cart view is unreachable via Navbar
   const [cartItems, setCartItems] = useState<Record<string, number>>({});
 
   const addToCart = (id: string) => {
@@ -90,12 +91,7 @@ const App: React.FC = () => {
     });
   };
 
-  const totalItems = Object.values(cartItems).reduce((sum: number, qty: number) => sum + qty, 0);
-
-  const handleCartClick = () => {
-    setCurrentView('cart');
-    window.scrollTo(0, 0);
-  };
+  // const totalItems = Object.values(cartItems).reduce((sum: number, qty: number) => sum + qty, 0);
 
   const handleNavigation = (id: string) => {
     setCurrentView('home');
@@ -119,8 +115,6 @@ const App: React.FC = () => {
       {loading && <SplashScreen onComplete={() => setLoading(false)} />}
       
       <Navbar 
-        cartCount={totalItems} 
-        onCartClick={handleCartClick}
         onNavigate={handleNavigation}
       />
       
