@@ -14,8 +14,8 @@ export const Hero: React.FC = () => {
           {/* TEXT CONTENT - LEFT */}
           <div className="flex-1 text-center lg:text-left relative z-20">
             
-            {/* Floating Badge */}
-            <div className="absolute -top-12 -left-6 md:-top-20 md:-left-12 animate-[spin_10s_linear_infinite]">
+            {/* Floating Badge - Moved behind text (z-0) and adjusted position */}
+            <div className="absolute -top-16 -left-8 md:-top-24 md:-left-16 animate-[spin_10s_linear_infinite] z-0 opacity-90">
               <div className="relative w-32 h-32 md:w-40 md:h-40 bg-deep-orange text-espresso flex items-center justify-center rounded-full border-4 border-espresso shadow-[4px_4px_0px_0px_#2D2424]">
                  <svg viewBox="0 0 100 100" className="absolute w-full h-full animate-[spin_4s_linear_infinite_reverse]">
                    <path id="curve" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="transparent" />
@@ -29,17 +29,21 @@ export const Hero: React.FC = () => {
               </div>
             </div>
 
-            <h1 className="font-serif font-black text-[5rem] sm:text-[7rem] md:text-[9rem] leading-[0.85] text-espresso tracking-tighter mb-8 drop-shadow-sm">
+            {/* Headline - Added relative z-10 to sit ABOVE badge */}
+            <h1 className="relative z-10 font-serif font-black text-[5rem] sm:text-[7rem] md:text-[9rem] leading-[0.85] text-espresso tracking-tight mb-8 drop-shadow-sm">
               CIAO <br/>
-              <span className="text-white text-stroke-3 text-stroke-espresso" style={{ WebkitTextStroke: '3px #2D2424' }}>BELLA.</span>
+              {/* BELLA - Solid White + Hard Shadow for Pop Art Look */}
+              <span className="text-white drop-shadow-[4px_4px_0_#2D2424] md:drop-shadow-[6px_6px_0_#2D2424]">
+                BELLA.
+              </span>
             </h1>
             
-            <p className="font-sans text-xl md:text-3xl text-espresso font-bold mb-10 max-w-xl mx-auto lg:mx-0 leading-tight bg-white/50 backdrop-blur-sm p-4 rounded-2xl border-2 border-espresso inline-block transform -rotate-1 shadow-[4px_4px_0px_0px_#2D2424]">
+            <p className="font-sans text-xl md:text-3xl text-espresso font-bold mb-10 max-w-xl mx-auto lg:mx-0 leading-tight bg-white/50 backdrop-blur-sm p-4 rounded-2xl border-2 border-espresso inline-block transform -rotate-1 shadow-[4px_4px_0px_0px_#2D2424] relative z-10">
               Authentic Italian sugar chaos. <br/>
               Use two hands.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start">
+            <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start relative z-10">
               <a href="#menu" className="group bg-espresso text-white text-xl font-sans font-black px-12 py-5 rounded-full border-2 border-espresso hover:bg-deep-orange hover:text-espresso transition-colors duration-200 flex items-center justify-center gap-3">
                 Grab a Cannoli <ArrowDownRight className="group-hover:rotate-45 transition-transform" />
               </a>

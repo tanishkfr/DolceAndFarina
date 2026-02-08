@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Menu, X, ShoppingBag } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   const navLinks = [
     { name: 'Menu', href: '#menu' },
@@ -18,102 +19,106 @@ export const Navbar: React.FC = () => {
       setScrolled(window.scrollY > 50);
     };
     window.addEventListener('scroll', handleScroll);
-    
-    // Prevent scrolling when menu is open
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      document.body.style.overflow = 'unset';
+    };
+  }, []);
+
+  // Handle click outside to close menu
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isOpen]);
 
   return (
-    <>
-      {/* Floating Island Container */}
-      <nav className={`fixed top-4 md:top-6 left-0 right-0 z-50 flex justify-center pointer-events-none transition-all duration-300 ${scrolled ? '-translate-y-1' : 'translate-y-0'}`}>
-        
-        {/* The Pill */}
-        <div className={`pointer-events-auto bg-cream/80 backdrop-blur-xl border-2 border-espresso rounded-full px-6 py-3 shadow-[4px_4px_10px_rgba(0,0,0,0.1)] relative w-[90%] md:w-[95%] max-w-7xl transition-all duration-300 ${scrolled ? 'scale-95 shadow-md' : 'scale-100'}`}>
+    <nav className={`fixed top-4 md:top-6 left-0 right-0 z-50 flex justify-center pointer-events-none transition-all duration-300 ${scrolled ? '-translate-y-1' : 'translate-y-0'}`}>
+      
+      {/* Wrapper for Pill and Dropdown */}
+      <div 
+        ref={menuRef}
+        className="relative w-[95%] max-w-3xl pointer-events-auto"
+      >
           
-          <div className="flex items-center justify-between relative h-10 md:h-12">
+          {/* The Pill Navbar */}
+          <div className={`bg-cream/90 backdrop-blur-md border-2 border-espresso rounded-full px-8 py-3 shadow-[2px_2px_8px_rgba(0,0,0,0.05)] transition-all duration-300 w-full ${scrolled ? 'scale-[0.99] shadow-md' : 'scale-100'}`}>
             
-            {/* Left: Cart / Bag Placeholder */}
-            <div className="flex-1 flex justify-start">
-               <button className="group flex items-center gap-2 text-espresso hover:text-deep-orange transition-colors">
-                  <div className="relative">
-                    <ShoppingBag size={24} />
-                    <span className="absolute -top-1 -right-1 bg-deep-orange text-espresso text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-espresso">0</span>
+            <div className="flex items-center justify-between relative h-10">
+              
+              {/* Left: Cart / Bag */}
+              <div className="flex-1 flex justify-start">
+                  <button className="group flex items-center gap-2 text-espresso hover:text-deep-orange transition-colors">
+                    <div className="relative">
+                      <ShoppingBag size={20} strokeWidth={2.5} />
+                      <span className="absolute -top-1 -right-1 bg-deep-orange text-espresso text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-espresso leading-none pt-[1px]">0</span>
+                    </div>
+                    <span className="hidden md:inline font-sans font-bold uppercase tracking-wider text-sm">Bag</span>
+                  </button>
+              </div>
+
+              {/* Center: Logo */}
+              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+                <a href="#" className="font-serif font-black text-2xl text-espresso tracking-tight whitespace-nowrap hover:text-deep-orange transition-colors">
+                  Dolce & Farina
+                </a>
+              </div>
+
+              {/* Right: Menu Trigger */}
+              <div className="flex-1 flex justify-end">
+                <button 
+                  onClick={() => setIsOpen(!isOpen)}
+                  className="group flex items-center gap-3 text-espresso hover:text-deep-orange transition-colors"
+                >
+                  <span className="hidden md:inline font-sans font-bold uppercase tracking-wider text-sm">
+                      {isOpen ? 'Close' : 'Menu'}
+                  </span>
+                  <div className={`rounded-full transition-all ${isOpen ? 'rotate-90' : 'rotate-0'}`}>
+                      {isOpen ? <X size={20} strokeWidth={2.5} /> : <Menu size={20} strokeWidth={2.5} />}
                   </div>
-                  <span className="hidden md:inline font-sans font-bold uppercase tracking-wider text-sm">Bag</span>
-               </button>
-            </div>
+                </button>
+              </div>
 
-            {/* Center: Logo (Absolute) */}
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
-              <a href="#" className="font-serif font-black text-2xl md:text-3xl text-espresso tracking-tight whitespace-nowrap hover:text-deep-orange transition-colors">
-                Dolce & Farina
-              </a>
-            </div>
-
-            {/* Right: Menu Trigger */}
-            <div className="flex-1 flex justify-end">
-              <button 
-                onClick={() => setIsOpen(!isOpen)}
-                className="group flex items-center gap-2 text-espresso hover:text-deep-orange transition-colors"
-              >
-                <span className="hidden md:inline font-sans font-bold uppercase tracking-wider text-sm">
-                    {isOpen ? 'Close' : 'Menu'}
-                </span>
-                <div className={`p-1 rounded-full border-2 border-transparent group-hover:border-espresso transition-all ${isOpen ? 'rotate-90' : 'rotate-0'}`}>
-                    {isOpen ? <X size={24} /> : <Menu size={24} />}
-                </div>
-              </button>
-            </div>
-
-          </div>
-        </div>
-      </nav>
-
-      {/* Full Screen Menu Overlay */}
-      <div className={`fixed inset-0 z-40 bg-cream flex flex-col justify-center items-center transition-transform duration-700 cubic-bezier(0.76, 0, 0.24, 1) ${isOpen ? 'translate-y-0' : '-translate-y-full'}`}>
-          
-          <div className="flex flex-col space-y-4 md:space-y-8 text-center relative z-10">
-            {navLinks.map((link, index) => (
-              <a 
-                key={link.name} 
-                href={link.href}
-                className={`font-serif font-black text-5xl md:text-7xl text-espresso hover:text-deep-orange transition-all duration-300 transform hover:scale-105 hover:skew-x-[-2deg] ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-                style={{ transitionDelay: `${index * 100}ms` }}
-                onClick={() => setIsOpen(false)}
-              >
-                {link.name}
-              </a>
-            ))}
-            
-            <div 
-                className={`mt-12 transition-all duration-500 delay-500 ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-            >
-              <a 
-                href="#menu" 
-                onClick={() => setIsOpen(false)} 
-                className="inline-block bg-deep-orange text-espresso px-10 py-5 rounded-full text-xl md:text-2xl font-bold font-sans uppercase tracking-wider shadow-[6px_6px_0px_0px_rgba(45,36,36,1)] border-2 border-espresso hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all"
-              >
-                Order Pickup
-              </a>
             </div>
           </div>
-          
-          {/* Background decoration for menu */}
-          <div className="absolute inset-0 -z-10 opacity-5 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#2D2424 2px, transparent 2px)', backgroundSize: '30px 30px' }}></div>
-          <div className="absolute bottom-12 text-espresso/40 font-sans font-bold uppercase tracking-widest text-xs">
-              Boston, MA • Est. 2024
+
+          {/* Floating Dropdown Card */}
+          <div 
+            className={`absolute top-full right-0 mt-3 w-56 bg-cream border-2 border-espresso rounded-2xl shadow-[4px_4px_0px_0px_#2D2424] p-4 transform transition-all duration-200 origin-top-right z-40 ${isOpen ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 -translate-y-2 pointer-events-none'}`}
+          >
+              <ul className="flex flex-col space-y-1">
+                {navLinks.map((link) => (
+                  <li key={link.name}>
+                    <a 
+                      href={link.href}
+                      onClick={() => setIsOpen(false)}
+                      className="block font-serif font-bold text-xl text-espresso hover:text-deep-orange hover:translate-x-2 transition-all py-2 border-b border-espresso/5 last:border-0"
+                    >
+                      {link.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-3 pt-2">
+                 <a 
+                   href="#menu" 
+                   onClick={() => setIsOpen(false)}
+                   className="block w-full bg-espresso text-white text-center py-3 rounded-xl font-sans font-bold uppercase text-xs tracking-wider border-2 border-espresso hover:bg-deep-orange hover:text-espresso transition-colors"
+                 >
+                   Order Pickup
+                 </a>
+              </div>
           </div>
+
       </div>
-    </>
+    </nav>
   );
 };
