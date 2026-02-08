@@ -97,18 +97,19 @@ const App: React.FC = () => {
     window.scrollTo(0, 0);
   };
 
-  const handleHomeClick = (shouldScrollToMenu = false) => {
+  const handleNavigation = (id: string) => {
     setCurrentView('home');
-    if (shouldScrollToMenu) {
-      setTimeout(() => {
-        const menuSection = document.getElementById('menu');
-        if (menuSection) {
-          menuSection.scrollIntoView({ behavior: 'smooth' });
+    // Wait for React to render the Home view, then scroll
+    setTimeout(() => {
+      if (id === 'home') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
         }
-      }, 100);
-    } else {
-       window.scrollTo(0, 0);
-    }
+      }
+    }, 100);
   };
 
   return (
@@ -120,7 +121,7 @@ const App: React.FC = () => {
       <Navbar 
         cartCount={totalItems} 
         onCartClick={handleCartClick}
-        onHomeClick={handleHomeClick}
+        onNavigate={handleNavigation}
       />
       
       <main className="flex flex-col w-full">
@@ -145,7 +146,7 @@ const App: React.FC = () => {
             addToCart={addToCart} 
             removeFromCart={removeFromCart}
             deleteFromCart={deleteFromCart}
-            onBack={() => setCurrentView('home')} 
+            onBack={() => handleNavigation('home')} 
           />
         )}
       </main>
