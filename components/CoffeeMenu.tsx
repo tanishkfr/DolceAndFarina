@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
-import { Plus, Check } from 'lucide-react';
+import React from 'react';
+import { Plus } from 'lucide-react';
 
-export const CoffeeMenu: React.FC = () => {
-  const [cart, setCart] = useState<Set<string>>(new Set());
+interface CoffeeMenuProps {
+  cartItems: Record<string, number>;
+  addToCart: (id: string) => void;
+}
+
+export const CoffeeMenu: React.FC<CoffeeMenuProps> = ({ cartItems, addToCart }) => {
 
   const drinks = [
     { id: 'c1', name: "Espresso", price: "$2.50" },
@@ -10,16 +14,6 @@ export const CoffeeMenu: React.FC = () => {
     { id: 'c3', name: "Freddo Espresso", price: "$3.50" },
     { id: 'c4', name: "Latte Macchiato", price: "$4.50" },
   ];
-
-  const toggleItem = (id: string) => {
-    const newCart = new Set(cart);
-    if (newCart.has(id)) {
-      newCart.delete(id);
-    } else {
-      newCart.add(id);
-    }
-    setCart(newCart);
-  };
 
   return (
     <section id="coffee" className="scroll-mt-32 py-24 px-6 md:px-12 bg-cream relative z-20">
@@ -42,7 +36,7 @@ export const CoffeeMenu: React.FC = () => {
 
             <ul className="space-y-6 relative z-10 w-full">
               {drinks.map((drink) => {
-                const isAdded = cart.has(drink.id);
+                const qty = cartItems[drink.id] || 0;
                 return (
                   <li key={drink.id} className="flex justify-between items-center bg-white p-5 rounded-xl border-3 border-espresso shadow-[4px_4px_0px_0px_#2D2424] hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_#2D2424] transition-all duration-200 cursor-pointer group relative">
                     <div className="flex flex-col relative">
@@ -57,13 +51,19 @@ export const CoffeeMenu: React.FC = () => {
                     <button 
                         onClick={(e) => {
                           e.stopPropagation();
-                          toggleItem(drink.id);
+                          addToCart(drink.id);
                         }}
-                        className={`flex items-center gap-2 pl-4 pr-1 py-1 rounded-full border-2 border-espresso transition-colors duration-200 cursor-pointer ${isAdded ? 'bg-vibrant-pistachio hover:bg-white' : 'bg-espresso hover:bg-deep-orange'}`}
+                        className={`flex items-center gap-2 pl-4 pr-1 py-1 rounded-full border-2 border-espresso transition-all duration-200 cursor-pointer ${
+                          qty > 0 
+                            ? 'bg-vibrant-pistachio text-espresso shadow-[2px_2px_0px_0px_#2D2424] translate-y-[1px]' 
+                            : 'bg-espresso text-white hover:bg-deep-orange hover:text-espresso hover:shadow-[4px_4px_0px_0px_#2D2424] hover:-translate-y-1'
+                        }`}
                       >
-                        <span className={`font-sans font-black text-xl ${isAdded ? 'text-espresso' : 'text-white'}`}>{drink.price}</span>
-                        <div className={`w-9 h-9 flex items-center justify-center rounded-full border-2 border-espresso bg-white text-espresso`}>
-                           {isAdded ? <Check size={20} strokeWidth={4} /> : <Plus size={20} strokeWidth={4} />}
+                        <span className={`font-sans font-black text-xl`}>{drink.price}</span>
+                        <div className={`w-9 h-9 flex items-center justify-center rounded-full border-2 border-espresso font-sans font-black text-lg ${
+                           qty > 0 ? 'bg-espresso text-white' : 'bg-white text-espresso'
+                        }`}>
+                           {qty > 0 ? qty : <Plus size={20} strokeWidth={4} />}
                         </div>
                       </button>
                   </li>

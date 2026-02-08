@@ -57,6 +57,18 @@ const CustomCursor = () => {
 
 const App: React.FC = () => {
   const [loading, setLoading] = useState(true);
+  
+  // GLOBAL CART STATE: Record<ItemId, Quantity>
+  const [cartItems, setCartItems] = useState<Record<string, number>>({});
+
+  const addToCart = (id: string) => {
+    setCartItems(prev => ({
+      ...prev,
+      [id]: (prev[id] || 0) + 1
+    }));
+  };
+
+  const totalItems = Object.values(cartItems).reduce((sum: number, qty: number) => sum + qty, 0);
 
   return (
     <div className="min-h-screen bg-cream font-sans text-espresso antialiased selection:bg-warm-yellow selection:text-espresso overflow-x-hidden">
@@ -64,12 +76,12 @@ const App: React.FC = () => {
       
       {loading && <SplashScreen onComplete={() => setLoading(false)} />}
       
-      <Navbar />
+      <Navbar cartCount={totalItems} />
       
       <main className="flex flex-col w-full">
         <Hero />
-        <PastryMenu />
-        <CoffeeMenu />
+        <PastryMenu cartItems={cartItems} addToCart={addToCart} />
+        <CoffeeMenu cartItems={cartItems} addToCart={addToCart} />
         <About />
       </main>
 

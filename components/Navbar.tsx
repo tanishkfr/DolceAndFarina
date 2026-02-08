@@ -1,7 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Menu, X, ShoppingBag } from 'lucide-react';
 
-export const Navbar: React.FC = () => {
+interface NavbarProps {
+  cartCount: number;
+}
+
+export const Navbar: React.FC<NavbarProps> = ({ cartCount }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -59,7 +63,9 @@ export const Navbar: React.FC = () => {
                   <button className="group flex items-center gap-2 text-espresso hover:text-deep-orange transition-colors">
                     <div className="relative">
                       <ShoppingBag size={20} strokeWidth={2.5} />
-                      <span className="absolute -top-1 -right-1 bg-deep-orange text-espresso text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-espresso leading-none pt-[1px]">0</span>
+                      <span className={`absolute -top-1 -right-1 bg-deep-orange text-espresso text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-espresso leading-none pt-[1px] transition-all duration-300 ${cartCount > 0 ? 'scale-100 opacity-100' : 'scale-0 opacity-0'}`}>
+                        {cartCount}
+                      </span>
                     </div>
                     <span className="hidden md:inline font-sans font-bold uppercase tracking-wider text-sm">Bag</span>
                   </button>
