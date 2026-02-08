@@ -30,7 +30,7 @@ const menuItems = [
 
 export const PastryMenu: React.FC = () => {
   return (
-    <section id="menu" className="bg-cream pb-32 pt-12 relative -mt-10 z-20">
+    <section id="menu" className="scroll-mt-32 bg-cream pb-32 pt-12 relative -mt-10 z-20">
       
       {/* X Crossover Marquee Container - Positioned to bridge sections */}
       <div className="relative h-[180px] w-full overflow-hidden mb-12 flex items-center justify-center -mt-24 z-30 pointer-events-none">

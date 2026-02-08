@@ -3,7 +3,7 @@ import { MapPin, Phone, Mail, Instagram, Facebook } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
-    <footer id="visit" className="bg-[#FFF9C4] text-espresso pt-24 pb-12 px-6 md:px-12 rounded-t-[3rem] -mt-10 relative z-30">
+    <footer id="visit" className="scroll-mt-32 bg-[#FFF9C4] text-espresso pt-24 pb-12 px-6 md:px-12 rounded-t-[3rem] -mt-10 relative z-30">
       <div className="container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-20">
           
