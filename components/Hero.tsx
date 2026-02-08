@@ -153,7 +153,7 @@ export const Hero: React.FC = () => {
       <div className="mt-8 relative z-30 transform -rotate-1 hover:rotate-0 transition-transform cursor-pointer">
           <div className="bg-espresso text-cream px-6 md:px-10 py-3 md:py-4 rounded-full border-2 border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)]">
               <p className="font-sans font-black text-xs md:text-lg uppercase tracking-widest">
-                Boston's Loudest Pastry Shop
+                Boston's Loveliest Pastry Shop
               </p>
           </div>
       </div>
