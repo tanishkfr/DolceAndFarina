@@ -43,11 +43,11 @@ export const PastryMenu: React.FC<PastryMenuProps> = ({ cartItems, addToCart, re
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-16">
 
           {/* LEFT COLUMN: IMAGE PANEL */}
-          <div className="flex-1 h-[600px] lg:h-auto min-h-[500px] rounded-[2rem] border-4 border-espresso shadow-[12px_12px_0px_0px_#2D2424] overflow-hidden relative group bg-gray-200">
+          <div className="flex-1 h-[600px] lg:h-auto min-h-[500px] rounded-[2rem] border-4 border-espresso shadow-[12px_12px_0px_0px_#2D2424] overflow-hidden relative group bg-white">
              <img 
                src="https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?q=80&w=800&auto=format&fit=crop"
                alt="Assorted Italian Pastries"
-               className="w-full h-full object-cover absolute inset-0 transition-transform duration-700 group-hover:scale-105 filter contrast-110"
+               className="absolute inset-0 w-full h-full object-cover min-h-[400px] transition-transform duration-700 group-hover:scale-105 filter contrast-110"
              />
              
              {/* Sticker */}
