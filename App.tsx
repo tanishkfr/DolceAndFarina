@@ -8,7 +8,7 @@ import { Navbar } from './components/Navbar';
 
 const App: React.FC = () => {
   return (
-    <div className="min-h-screen bg-butter font-sans text-espresso antialiased selection:bg-spritz selection:text-white overflow-x-hidden">
+    <div className="min-h-screen bg-cream font-sans text-espresso antialiased selection:bg-warm-yellow selection:text-espresso overflow-x-hidden">
       <Navbar />
       
       <main className="flex flex-col w-full">
