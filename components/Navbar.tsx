@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
@@ -10,6 +10,18 @@ export const Navbar: React.FC = () => {
     { name: 'About', href: '#about' },
     { name: 'Visit', href: '#visit' },
   ];
+
+  // Prevent scrolling when mobile menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-cream/90 backdrop-blur-md border-b-2 border-espresso py-4 transition-all duration-300">
@@ -38,30 +50,36 @@ export const Navbar: React.FC = () => {
 
         {/* Mobile Menu Button */}
         <button 
-          className="md:hidden text-espresso bg-pale-pistachio p-2 rounded-full border-2 border-espresso hover:bg-deep-orange transition-colors"
+          className="md:hidden text-espresso bg-pale-pistachio p-2 rounded-full border-2 border-espresso hover:bg-deep-orange transition-colors z-50 relative"
           onClick={() => setIsOpen(!isOpen)}
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile Menu Overlay (Full Screen) */}
       {isOpen && (
-        <div className="absolute top-[80px] left-0 w-full bg-cream border-b-4 border-espresso shadow-xl flex flex-col p-6 md:hidden animate-fade-in z-40">
-          {navLinks.map((link) => (
-            <a 
-              key={link.name} 
-              href={link.href}
-              className="py-4 text-3xl font-serif font-bold text-espresso border-b border-espresso/10 last:border-0 hover:text-deep-orange transition-colors"
-              onClick={() => setIsOpen(false)}
-            >
-              {link.name}
-            </a>
-          ))}
-          <div className="mt-8">
-            <a href="#menu" onClick={() => setIsOpen(false)} className="block w-full bg-deep-orange text-espresso py-4 rounded-full text-xl font-bold font-sans uppercase tracking-wider shadow-lg border-2 border-espresso text-center">
-              Order Pickup
-            </a>
+        <div className="fixed inset-0 z-40 bg-cream flex flex-col justify-center items-center animate-fade-in">
+          <div className="flex flex-col space-y-8 text-center">
+            {navLinks.map((link) => (
+              <a 
+                key={link.name} 
+                href={link.href}
+                className="font-serif font-black text-5xl text-espresso hover:text-deep-orange transition-colors"
+                onClick={() => setIsOpen(false)}
+              >
+                {link.name}
+              </a>
+            ))}
+            <div className="mt-8">
+              <a 
+                href="#menu" 
+                onClick={() => setIsOpen(false)} 
+                className="block bg-deep-orange text-espresso px-8 py-4 rounded-full text-2xl font-bold font-sans uppercase tracking-wider shadow-[4px_4px_0px_0px_rgba(45,36,36,1)] border-2 border-espresso hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all"
+              >
+                Order Pickup
+              </a>
+            </div>
           </div>
         </div>
       )}

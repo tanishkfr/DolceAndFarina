@@ -1,5 +1,5 @@
-import React from 'react';
-import { Plus } from 'lucide-react';
+import React, { useState } from 'react';
+import { Plus, Check } from 'lucide-react';
 
 const menuItems = [
   {
@@ -7,6 +7,7 @@ const menuItems = [
     name: "The Holy Cannoli",
     description: "Crispy shell, sweet ricotta, pistachios.",
     price: "$5.00",
+    badge: "Best Seller"
   },
   {
     id: '2',
@@ -29,8 +30,20 @@ const menuItems = [
 ];
 
 export const PastryMenu: React.FC = () => {
+  const [cart, setCart] = useState<Set<string>>(new Set());
+
+  const toggleItem = (id: string) => {
+    const newCart = new Set(cart);
+    if (newCart.has(id)) {
+      newCart.delete(id);
+    } else {
+      newCart.add(id);
+    }
+    setCart(newCart);
+  };
+
   return (
-    <section id="menu" className="scroll-mt-32 bg-cream pb-32 pt-12 relative -mt-10 z-20">
+    <section id="menu" className="scroll-mt-40 bg-cream pb-32 pt-12 relative -mt-10 z-20">
       
       {/* X Crossover Marquee Container - Positioned to bridge sections */}
       <div className="relative h-[180px] w-full overflow-hidden mb-12 flex items-center justify-center -mt-24 z-30 pointer-events-none">
@@ -94,21 +107,36 @@ export const PastryMenu: React.FC = () => {
              </h2>
 
              <ul className="space-y-4 relative z-10 w-full">
-               {menuItems.map((item) => (
-                 <li key={item.id} className="flex justify-between items-center bg-white/60 p-4 rounded-xl border border-espresso/10 hover:border-espresso hover:bg-white transition-all cursor-pointer group">
-                    <div className="flex flex-col pr-4">
-                      <span className="font-serif font-bold text-xl md:text-2xl text-espresso group-hover:text-deep-orange transition-colors">
-                        {item.name}
-                      </span>
-                      <span className="font-sans text-sm font-medium text-espresso/70 mt-1 leading-snug">
-                        {item.description}
-                      </span>
-                    </div>
-                    <span className="font-sans font-bold text-lg text-espresso bg-white px-3 py-1 rounded-lg border-2 border-espresso shadow-[2px_2px_0px_0px_rgba(45,36,36,1)] shrink-0">
-                      {item.price}
-                    </span>
-                 </li>
-               ))}
+               {menuItems.map((item) => {
+                 const isAdded = cart.has(item.id);
+                 return (
+                   <li key={item.id} className="flex justify-between items-center bg-white/60 p-4 rounded-xl border border-espresso/10 hover:border-espresso hover:bg-white transition-all group">
+                      <div className="flex flex-col pr-4 relative">
+                        {item.badge && (
+                          <span className="absolute -top-3 -left-2 bg-deep-orange text-espresso text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full border border-espresso transform -rotate-3 shadow-sm">
+                            {item.badge}
+                          </span>
+                        )}
+                        <span className="font-serif font-bold text-xl md:text-2xl text-espresso group-hover:text-deep-orange transition-colors">
+                          {item.name}
+                        </span>
+                        <span className="font-sans text-sm font-medium text-espresso/70 mt-1 leading-snug">
+                          {item.description}
+                        </span>
+                      </div>
+                      
+                      <button 
+                        onClick={() => toggleItem(item.id)}
+                        className={`flex items-center gap-2 pl-3 pr-1 py-1 rounded-full border-2 border-espresso transition-all shadow-[2px_2px_0px_0px_rgba(45,36,36,1)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px] cursor-pointer ${isAdded ? 'bg-vibrant-pistachio' : 'bg-white'}`}
+                      >
+                        <span className="font-sans font-bold text-lg text-espresso">{item.price}</span>
+                        <div className={`w-8 h-8 flex items-center justify-center rounded-full border border-espresso transition-colors ${isAdded ? 'bg-white text-espresso' : 'bg-espresso text-cream'}`}>
+                           {isAdded ? <Check size={18} strokeWidth={3} /> : <Plus size={18} strokeWidth={3} />}
+                        </div>
+                      </button>
+                   </li>
+                 );
+               })}
              </ul>
 
              <div className="mt-10 relative z-10 text-center lg:text-left">

@@ -1,9 +1,18 @@
-import React from 'react';
-import { MapPin, Phone, Mail, Instagram, Facebook } from 'lucide-react';
+import React, { useState } from 'react';
+import { MapPin, Phone, Mail, Instagram, Facebook, Copy, Check } from 'lucide-react';
 
 export const Footer: React.FC = () => {
+  const [copied, setCopied] = useState(false);
+  const address = "123 Hanover St, Boston, MA 02113";
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(address);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
-    <footer id="visit" className="scroll-mt-32 bg-[#FFF9C4] text-espresso pt-24 pb-12 px-6 md:px-12 rounded-t-[3rem] -mt-10 relative z-30">
+    <footer id="visit" className="scroll-mt-40 bg-[#FFF9C4] text-espresso pt-24 pb-12 px-6 md:px-12 rounded-t-[3rem] -mt-10 relative z-30">
       <div className="container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-20">
           
@@ -15,9 +24,16 @@ export const Footer: React.FC = () => {
               <div className="bg-white p-3 rounded-full border-2 border-espresso shadow-sm shrink-0">
                 <MapPin size={20} />
               </div>
-              <div>
+              <div className="flex flex-col items-start">
                 <p className="font-sans font-bold text-lg">Dolce & Farina</p>
-                <p className="font-sans text-espresso/80">123 Hanover St,<br/> Boston, MA 02113</p>
+                <p className="font-sans text-espresso/80 leading-snug">123 Hanover St,<br/> Boston, MA 02113</p>
+                <button 
+                  onClick={handleCopy} 
+                  className="flex items-center gap-1 mt-1 text-xs font-bold uppercase tracking-wider bg-white/50 px-2 py-1 rounded-md hover:bg-white border border-espresso/20 transition-all"
+                >
+                  {copied ? <Check size={12} className="text-green-600" /> : <Copy size={12} />}
+                  <span>{copied ? 'Copied' : 'Copy Address'}</span>
+                </button>
               </div>
             </div>
 

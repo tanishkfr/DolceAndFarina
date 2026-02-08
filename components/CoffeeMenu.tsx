@@ -9,7 +9,7 @@ export const CoffeeMenu: React.FC = () => {
   ];
 
   return (
-    <section id="coffee" className="scroll-mt-32 py-24 px-6 md:px-12 bg-cream">
+    <section id="coffee" className="scroll-mt-40 py-24 px-6 md:px-12 bg-cream">
       <div className="container mx-auto">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
           
