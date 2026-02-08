@@ -30,7 +30,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
         {/* Left: Address (Hidden on small mobile) */}
         <div className="hidden md:flex flex-1 justify-start items-center">
            <span className="font-sans font-bold text-xs md:text-sm uppercase tracking-widest text-espresso whitespace-nowrap">
-             📍 123 Hanover St
+             123 HANOVER ST, BOSTON
            </span>
         </div>
 
@@ -49,22 +49,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
           <a href="#visit" className="font-sans font-bold text-xs md:text-sm uppercase tracking-widest text-espresso hover:text-deep-orange transition-colors whitespace-nowrap">
             @DOLCEFARINA
           </a>
-          <button 
-            onClick={() => onNavigate('menu')}
-            className="bg-espresso text-cream text-xs font-bold uppercase px-4 py-2 rounded-full hover:bg-deep-orange hover:text-espresso transition-colors"
-          >
-            Menu
-          </button>
         </div>
 
-        {/* Mobile Only Menu Button */}
+        {/* Mobile Only: Show Social here too instead of menu if we want to remove menu entirely */}
         <div className="md:hidden flex items-center">
-             <button 
-            onClick={() => onNavigate('menu')}
-            className="bg-espresso text-cream font-sans font-bold text-xs uppercase px-4 py-2 rounded-full border border-espresso shadow-[2px_2px_0px_0px_#2D2424] active:translate-y-[2px] active:shadow-none transition-all"
-          >
-            Menu
-          </button>
+             <a href="#visit" className="font-sans font-bold text-xs uppercase tracking-widest text-espresso hover:text-deep-orange transition-colors">
+               @DOLCEFARINA
+             </a>
         </div>
 
       </div>

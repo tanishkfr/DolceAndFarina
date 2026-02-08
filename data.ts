@@ -18,7 +18,7 @@ export const pastries: MenuItem[] = [
     displayPrice: "$5.00",
     badge: "Best Seller",
     category: 'pastry',
-    image: "https://loremflickr.com/800/1200/cannoli,pastry/all?lock=99"
+    image: "https://images.unsplash.com/photo-1617196037467-1f5d50323800?q=80&w=800&auto=format&fit=crop"
   },
   {
     id: 'p2',

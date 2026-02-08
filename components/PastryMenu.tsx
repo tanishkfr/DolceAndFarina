@@ -1,5 +1,4 @@
 import React from 'react';
-import { Plus, Minus } from 'lucide-react';
 import { pastries } from '../data';
 
 interface PastryMenuProps {
@@ -44,11 +43,11 @@ export const PastryMenu: React.FC<PastryMenuProps> = ({ cartItems, addToCart, re
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-16">
 
           {/* LEFT COLUMN: IMAGE PANEL */}
-          <div className="flex-1 h-[600px] lg:h-auto min-h-[500px] rounded-[2rem] border-4 border-espresso shadow-[12px_12px_0px_0px_#2D2424] overflow-hidden relative group bg-white">
+          <div className="flex-1 h-[600px] lg:h-auto min-h-[500px] rounded-[2rem] border-4 border-espresso shadow-[12px_12px_0px_0px_#2D2424] overflow-hidden relative group bg-gray-200">
              <img 
-               src="https://loremflickr.com/800/1200/italian,pastry,dessert/all?lock=99"
+               src="https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?q=80&w=800&auto=format&fit=crop"
                alt="Assorted Italian Pastries"
-               className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter contrast-110"
+               className="w-full h-full object-cover absolute inset-0 transition-transform duration-700 group-hover:scale-105 filter contrast-110"
              />
              
              {/* Sticker */}
@@ -73,7 +72,6 @@ export const PastryMenu: React.FC<PastryMenuProps> = ({ cartItems, addToCart, re
 
              <ul className="space-y-6 relative z-10 w-full">
                {pastries.map((item) => {
-                 const qty = cartItems[item.id] || 0;
                  return (
                    <li key={item.id} className="flex justify-between items-center bg-white p-5 rounded-xl border-3 border-espresso shadow-[4px_4px_0px_0px_#2D2424] hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_#2D2424] transition-all duration-200 cursor-pointer group relative">
                       
@@ -91,42 +89,15 @@ export const PastryMenu: React.FC<PastryMenuProps> = ({ cartItems, addToCart, re
                         </span>
                       </div>
                       
-                      {qty === 0 ? (
-                        <button 
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            addToCart(item.id);
-                          }}
-                          className="flex items-center gap-2 pl-4 pr-1 py-1 rounded-full border-2 border-espresso bg-espresso text-white hover:bg-deep-orange hover:text-espresso hover:shadow-[4px_4px_0px_0px_#2D2424] hover:-translate-y-1 transition-all duration-200 cursor-pointer"
-                        >
-                          <span className="font-sans font-black text-xl">{item.displayPrice}</span>
-                          <div className="w-9 h-9 flex items-center justify-center rounded-full border-2 border-espresso bg-white text-espresso">
-                             <Plus size={20} strokeWidth={4} />
-                          </div>
-                        </button>
-                      ) : (
-                        <div className="flex items-center bg-vibrant-pistachio rounded-full border-2 border-espresso h-11 shadow-[2px_2px_0px_0px_#2D2424] translate-y-[1px]">
-                           <button 
-                             onClick={(e) => {
-                               e.stopPropagation();
-                               removeFromCart(item.id);
-                             }}
-                             className="w-10 h-full flex items-center justify-center hover:bg-espresso hover:text-white rounded-l-full transition-colors text-espresso"
-                           >
-                             <Minus size={16} strokeWidth={3} />
-                           </button>
-                           <div className="w-8 text-center font-sans font-black text-lg text-espresso">{qty}</div>
-                           <button 
-                             onClick={(e) => {
-                               e.stopPropagation();
-                               addToCart(item.id);
-                             }}
-                             className="w-10 h-full flex items-center justify-center hover:bg-espresso hover:text-white rounded-r-full transition-colors text-espresso"
-                           >
-                             <Plus size={16} strokeWidth={3} />
-                           </button>
-                        </div>
-                      )}
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          addToCart(item.id);
+                        }}
+                        className="bg-white border-2 border-espresso rounded-full px-4 py-2 font-bold text-espresso hover:bg-deep-orange hover:text-white transition-colors font-sans"
+                      >
+                        {item.displayPrice}
+                      </button>
 
                    </li>
                  );
